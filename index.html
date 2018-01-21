@@ -3,27 +3,34 @@
 
 <head>
   <title>Angular Application</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
 </head>
 
 <body>
   <div ng-controller="NotesListController as notesList">
-    <div ng-if="notesList.notes.length == 0">
+    <p ng-if="notesList.notes.length == 0">
       <span>Notes list is empty.</span>
-    </div>
+    </p>
 
-    <ul>
+    <p ng-if="notesList.notes.length">
+      Notes list:
+    </p>
+
+    <ol>
       <li ng-repeat="note in notesList.notes track by $index">
         <span ng-click="notesList.deleteNote($index)">
           {{ note }}
         </span>
       </li>
-    </ul>
+    </ol>
 
     <form ng-submit="notesList.addNote()">
       <input type="text" ng-model="notesList.noteText">
-      <input type="submit" value="add note">
+      <input type="submit" value="add note" ng-disabled="notesList.noteText.length === 0">
+      <button ng-click="notesList.deleteAll()" ng-disabled="notesList.notes.length === 0">delete all notes</button>
     </form>
+
+
   </div>
 
   <script>
@@ -38,11 +45,14 @@
       notesList.addNote = function() {
         notesList.notes.push(notesList.noteText);
         notesList.noteText = '';
-        console.log(notesList.notes);
       }
 
       notesList.deleteNote = function($index) {
         notesList.notes.splice($index, 1);
+      }
+
+      notesList.deleteAll = function() {
+        notesList.notes = [];
       }
     })
   </script>
