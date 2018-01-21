@@ -1,12 +1,19 @@
 <!doctype html>
-<html ng-app="myApp">
+<html>
 
 <head>
   <title>Angular Application</title>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
 </head>
 
-<body>
+<body ng-app="myApp" ng-cloak>
   <div ng-controller="NotesListController as notesList">
     <p ng-if="notesList.notes.length == 0">
       <span>Notes list is empty.</span>
@@ -25,16 +32,22 @@
     </ol>
 
     <form ng-submit="notesList.addNote()">
-      <input type="text" ng-model="notesList.noteText">
-      <input type="submit" value="add note" ng-disabled="notesList.noteText.length === 0">
-      <button ng-click="notesList.deleteAll()" ng-disabled="notesList.notes.length === 0">delete all notes</button>
+      <md-input-container>
+        <label>Username</label>
+        <input type="text" ng-model="notesList.noteText">
+      </md-input-container>
+
+      <md-button type="submit" class="md-raised md-accent" ng-disabled="notesList.noteText.length === 0">
+        add note
+      </md-button>
+      <md-button ng-click="notesList.deleteAll()" class="md-raised md-warn" ng-disabled="notesList.notes.length === 0">
+        delete all notes
+      </md-button>
     </form>
-
-
   </div>
 
   <script>
-    var myApp = angular.module('myApp', []);
+    var myApp = angular.module('myApp', ['ngMaterial']);
 
     myApp.controller('NotesListController', function() {
       var notesList = this;
