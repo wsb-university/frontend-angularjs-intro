@@ -24,7 +24,6 @@
     <md-toolbar md-scroll-shrink>
       <div class="md-toolbar-tools">
         <h1 md-truncate flex>Notes</h1>
-        <div flex>12</div>
         <form ng-submit="notesList.addNote()">
           <md-input-container>
             <input type="text" ng-model="notesList.noteText" class />
@@ -32,38 +31,40 @@
           <md-button type="submit" class="md-raised md-accent" ng-disabled="notesList.noteText.length === 0">
             add note
           </md-button>
-          <md-button ng-click="notesList.deleteAll()" class="md-raised md-primary" ng-disabled="notesList.notes.length === 0">
+          <md-button ng-click="notesList.deleteAll()" class="md-raised md-warn" ng-disabled="notesList.notes.length === 0">
             delete all notes
           </md-button>
         </form>
-
       </div>
     </md-toolbar>
     <md-content>
       <div layout="row" layout-align="center center">
-        <h2 ng-if="notesList.notes.length == 0">
-          <span>Notes list is empty.</span>
-        </h2>
-        <h2 ng-if="notesList.notes.length">
-          Notes list:
-        </h2>
+        <h2 ng-if="notesList.notes.length == 0">Notes list is empty.</h2>
+        <h2 ng-if="notesList.notes.length">Notes list:</h2>
       </div>
       <div>
         <md-card ng-repeat="note in notesList.notes track by $index">
           <md-card-header>
             <md-card-header-text class="md-title" layout="row" layout-align="space-around center">
               <div flex>{{ note }}</div>
-              <md-button class="md-warn"  ng-click="notesList.deleteNote($index)">delete</md-button>
+              <md-button class="md-warn" ng-click="notesList.deleteNote($index)">delete</md-button>
             </md-card-header-text>
           </md-card-header>
         </md-card>
       </div>
-
     </md-content>
   </div>
 
   <script>
     var myApp = angular.module('myApp', ['ngMaterial']);
+
+    myApp.config(function($mdThemingProvider) {
+      $mdThemingProvider.theme('default')
+        .primaryPalette('purple')
+        .accentPalette('light-green')
+        .warnPalette('red')
+        .backgroundPalette('teal');
+    });
 
     myApp.controller('NotesListController', function() {
       var notesList = this;
@@ -72,7 +73,7 @@
       notesList.notes = [];
 
       notesList.addNote = function() {
-        notesList.notes.push(notesList.noteText);
+        notesList.notes.unshift(notesList.noteText);
         notesList.noteText = '';
       }
 
