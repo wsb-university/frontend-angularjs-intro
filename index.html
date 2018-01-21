@@ -23,18 +23,20 @@
       Notes list:
     </p>
 
-    <ol>
-      <li ng-repeat="note in notesList.notes track by $index">
-        <span ng-click="notesList.deleteNote($index)">
-          {{ note }}
-        </span>
-      </li>
-    </ol>
+    <div>
+      <md-card ng-repeat="note in notesList.notes track by $index">
+        <md-card-header>
+          <md-card-header-text ng-click="notesList.deleteNote($index)" class="md-title">
+            {{ note }}
+          </md-card-header-text>
+        </md-card-header>
+      </md-card>
+    </div>
 
     <form ng-submit="notesList.addNote()">
       <md-input-container>
-        <label>Username</label>
-        <input type="text" ng-model="notesList.noteText">
+        <label>Note text</label>
+        <input type="text" ng-model="notesList.noteText" />
       </md-input-container>
 
       <md-button type="submit" class="md-raised md-accent" ng-disabled="notesList.noteText.length === 0">
