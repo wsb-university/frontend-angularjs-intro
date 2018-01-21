@@ -8,6 +8,18 @@
 
 <body>
   <div ng-controller="NotesListController as notesList">
+    <div ng-if="notesList.notes.length == 0">
+      <span>Notes list is empty.</span>
+    </div>
+
+    <ul>
+      <li ng-repeat="note in notesList.notes track by $index">
+        <span ng-click="notesList.deleteNote($index)">
+          {{ note }}
+        </span>
+      </li>
+    </ul>
+
     <form ng-submit="notesList.addNote()">
       <input type="text" ng-model="notesList.noteText">
       <input type="submit" value="add note">
@@ -21,10 +33,16 @@
       var notesList = this;
 
       notesList.noteText = '';
+      notesList.notes = [];
 
       notesList.addNote = function() {
-        console.log('form submitted with value ' + notesList.noteText);
+        notesList.notes.push(notesList.noteText);
         notesList.noteText = '';
+        console.log(notesList.notes);
+      }
+
+      notesList.deleteNote = function($index) {
+        notesList.notes.splice($index, 1);
       }
     })
   </script>
