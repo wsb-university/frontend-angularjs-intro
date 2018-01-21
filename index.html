@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app>
+<html ng-app="myApp">
 
 <head>
   <title>Angular Application</title>
@@ -7,13 +7,26 @@
 </head>
 
 <body>
-  <h1>Hello {{ yourName }}!</h1>
-
-  <label>Name:</label>
-  <input type="text" ng-model="yourName" placeholder="Enter a name here">
+  <div ng-controller="NotesListController as notesList">
+    <form ng-submit="notesList.addNote()">
+      <input type="text" ng-model="notesList.noteText">
+      <input type="submit" value="add note">
+    </form>
+  </div>
 
   <script>
-    console.log('Hello Angular!')
+    var myApp = angular.module('myApp', []);
+
+    myApp.controller('NotesListController', function() {
+      var notesList = this;
+
+      notesList.noteText = '';
+
+      notesList.addNote = function() {
+        console.log('form submitted with value ' + notesList.noteText);
+        notesList.noteText = '';
+      }
+    })
   </script>
 
 </body>
